@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration Portal</title>
+    
+    <!-- Bootstrap 5 CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap Icons CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="registration-body">
+    
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-mortarboard"></i> Student Portal
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">
+                            <i class="bi bi-person-plus"></i> Registration
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="logoutBtn">
+                            <i class="bi bi-box-arrow-right"></i> Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Main Container -->
+    <div class="container py-4">
+        <!-- Page Title -->
+        <div class="text-center mb-4">
+            <h1 class="registration-title">Student Registration Portal</h1>
+            <p class="registration-subtitle">Complete your personal, academic and project details</p>
+        </div>
+        
+        <!-- Registration Card -->
+        <div class="card registration-card shadow">
+            <div class="card-body p-4">
+                <form id="registrationForm" novalidate>
+                    
+                    <!-- Section 1: Student Photo -->
+                    <div class="section-title mb-3">
+                        <h4><i class="bi bi-camera"></i> Student Photo</h4>
+                        <hr>
+                    </div>
+                    
+                    <div class="row mb-4">
+                        <!-- Camera Preview Box -->
+                        <div class="col-md-6 mb-3 mb-md-0">
+                            <div class="photo-box">
+                                <h5 class="photo-box-title"><i class="bi bi-camera-video"></i> Camera Preview</h5>
+                                <div class="video-container">
+                                    <video id="cameraVideo" autoplay playsinline></video>
+                                    <div id="cameraPlaceholder" class="placeholder-text">
+                                        <i class="bi bi-camera-video-off"></i>
+                                        <p>Camera not started</p>
+                                    </div>
+                                </div>
+                                <div class="photo-buttons mt-3">
+                                    <button type="button" class="btn btn-primary me-2" id="startCameraBtn">
+                                        <i class="bi bi-play-circle"></i> Start Camera
+                                    </button>
+                                    <button type="button" class="btn btn-success me-2" id="capturePhotoBtn" disabled>
+                                        <i class="bi bi-camera"></i> Capture Photo
+                                    </button>
+                                    <button type="button" class="btn btn-danger" id="stopCameraBtn" disabled>
+                                        <i class="bi bi-stop-circle"></i> Stop Camera
+                                    </button>
+                                </div>
+                                <div class="camera-error mt-2" id="cameraError"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Student Photo Box -->
+                        <div class="col-md-6">
+                            <div class="photo-box">
+                                <h5 class="photo-box-title"><i class="bi bi-person"></i> Student Photo</h5>
+                                <div class="photo-container">
+                                    <img id="studentPhoto" src="" alt="Student Photo" style="display: none;">
+                                    <div id="photoPlaceholder" class="placeholder-text">
+                                        <i class="bi bi-person"></i>
+                                        <p>No photo selected</p>
+                                    </div>
+                                </div>
+                                <div class="photo-buttons mt-3">
+                                    <button type="button" class="btn btn-primary me-2" id="uploadPhotoBtn">
+                                        <i class="bi bi-upload"></i> Upload Photo
+                                    </button>
+                                    <button type="button" class="btn btn-danger" id="removePhotoBtn" disabled>
+                                        <i class="bi bi-trash"></i> Remove Photo
+                                    </button>
+                                    <input type="file" id="photoInput" accept="image/*" style="display: none;">
+                                </div>
+                                <div class="photo-error mt-2" id="photoError"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Section 2: Personal Details -->
+                    <div class="section-title mb-3">
+                        <h4><i class="bi bi-person-badge"></i> Personal Details</h4>
+                        <hr>
+                    </div>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-6 mb-3">
+                            <label for="fullName" class="form-label">Full Name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="fullName" placeholder="Enter your full name" required>
+                            <div class="invalid-feedback" id="fullNameError"></div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="email" class="form-label">Email Address <span class="text-danger">*</span></label>
+                            <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+                            <div class="invalid-feedback" id="emailError"></div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="mobileNumber" class="form-label">Mobile Number <span class="text-danger">*</span></label>
+                            <input type="tel" class="form-control" id="mobileNumber" placeholder="Enter 10-digit mobile number" required>
+                            <div class="invalid-feedback" id="mobileNumberError"></div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="dateOfBirth" class="form-label">Date of Birth <span class="text-danger">*</span></label>
+                            <input type="date" class="form-control" id="dateOfBirth" required>
+                            <div class="invalid-feedback" id="dateOfBirthError"></div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="age" class="form-label">Age</label>
+                            <input type="text" class="form-control" id="age" placeholder="Auto-calculated" readonly>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Gender <span class="text-danger">*</span></label>
+                            <div class="gender-group">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="gender" id="male" value="Male" required>
+                                    <label class="form-check-label" for="male">Male</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="gender" id="female" value="Female">
+                                    <label class="form-check-label" for="female">Female</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="gender" id="other" value="Other">
+                                    <label class="form-check-label" for="other">Other</label>
+                                </div>
+                            </div>
+                            <div class="invalid-feedback" id="genderError"></div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Marital Status <span class="text-danger">*</span></label>
+                            <div class="marital-group">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="maritalStatus" id="unmarried" value="Unmarried" required>
+                                    <label class="form-check-label" for="unmarried">Unmarried</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="maritalStatus" id="married" value="Married">
+                                    <label class="form-check-label" for="married">Married</label>
+                                </div>
+                            </div>
+                            <div class="invalid-feedback" id="maritalStatusError"></div>
+                        </div>
+                        
+                        <div class="col-12 mb-3">
+                            <label for="address" class="form-label">Address <span class="text-danger">*</span></label>
+                            <textarea class="form-control" id="address" rows="3" placeholder="Enter your address" required></textarea>
+                            <div class="invalid-feedback" id="addressError"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Section 3: Academic Details -->
+                    <div class="section-title mb-3">
+                        <h4><i class="bi bi-mortarboard"></i> Academic Details</h4>
+                        <hr>
+                    </div>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-6 mb-3">
+                            <label for="collegeName" class="form-label">College Name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="collegeName" placeholder="Enter your college name" required>
+                            <div class="invalid-feedback" id="collegeNameError"></div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="degree" class="form-label">Degree <span class="text-danger">*</span></label>
+                            <select class="form-select" id="degree" required>
+                                <option value="">Select Degree</option>
+                                <option value="Diploma">Diploma</option>
+                                <option value="B.E">B.E</option>
+                                <option value="B.Tech">B.Tech</option>
+                                <option value="B.Sc">B.Sc</option>
+                                <option value="BCA">BCA</option>
+                                <option value="B.Com">B.Com</option>
+                                <option value="MCA">MCA</option>
+                                <option value="M.Sc">M.Sc</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            <div class="invalid-feedback" id="degreeError"></div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="department" class="form-label">Department <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="department" placeholder="Enter your department" required>
+                            <div class="invalid-feedback" id="departmentError"></div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="yearOfPassing" class="form-label">Year of Passing <span class="text-danger">*</span></label>
+                            <select class="form-select" id="yearOfPassing" required>
+                                <option value="">Select Year</option>
+                                <option value="2023">2023</option>
+                                <option value="2024">2024</option>
+                                <option value="2025">2025</option>
+                                <option value="2026">2026</option>
+                                <option value="2027">2027</option>
+                                <option value="2028">2028</option>
+                            </select>
+                            <div class="invalid-feedback" id="yearOfPassingError"></div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="percentage" class="form-label">Percentage / CGPA <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="percentage" placeholder="Enter your percentage or CGPA" required>
+                            <div class="invalid-feedback" id="percentageError"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Section 4: Technical Skills -->
+                    <div class="section-title mb-3">
+                        <h4><i class="bi bi-tools"></i> Technical Skills</h4>
+                        <hr>
+                    </div>
+                    
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <label class="form-label">Select Your Skills <span class="text-danger">*</span> (Select at least one)</label>
+                            <div class="skills-grid">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="html" value="HTML">
+                                    <label class="form-check-label" for="html">HTML</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="css" value="CSS">
+                                    <label class="form-check-label" for="css">CSS</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="javascript" value="JavaScript">
+                                    <label class="form-check-label" for="javascript">JavaScript</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="bootstrap" value="Bootstrap">
+                                    <label class="form-check-label" for="bootstrap">Bootstrap</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="react" value="React">
+                                    <label class="form-check-label" for="react">React</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="python" value="Python">
+                                    <label class="form-check-label" for="python">Python</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="csharp" value="C#">
+                                    <label class="form-check-label" for="csharp">C#</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="java" value="Java">
+                                    <label class="form-check-label" for="java">Java</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="sql" value="SQL">
+                                    <label class="form-check-label" for="sql">SQL</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="uiux" value="UI/UX Design">
+                                    <label class="form-check-label" for="uiux">UI/UX Design</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="aitools" value="AI Tools">
+                                    <label class="form-check-label" for="aitools">AI Tools</label>
+                                </div>
+                            </div>
+                            <div class="invalid-feedback" id="skillsError"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Section 5: Internship and Experience -->
+                    <div class="section-title mb-3">
+                        <h4><i class="bi bi-briefcase"></i> Internship and Experience</h4>
+                        <hr>
+                    </div>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-6 mb-3">
+                            <label for="experienceLevel" class="form-label">Experience Level <span class="text-danger">*</span></label>
+                            <select class="form-select" id="experienceLevel" required>
+                                <option value="">Select Experience Level</option>
+                                <option value="Fresher">Fresher</option>
+                                <option value="0-1 Year">0-1 Year</option>
+                                <option value="1-2 Years">1-2 Years</option>
+                                <option value="2-5 Years">2-5 Years</option>
+                                <option value="More than 5 Years">More than 5 Years</option>
+                            </select>
+                            <div class="invalid-feedback" id="experienceLevelError"></div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="internshipCompany" class="form-label">Internship Company</label>
+                            <input type="text" class="form-control" id="internshipCompany" placeholder="Enter company name">
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="internshipDuration" class="form-label">Internship Duration</label>
+                            <input type="text" class="form-control" id="internshipDuration" placeholder="e.g., 3 months, 6 months">
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="internshipRole" class="form-label">Internship Role</label>
+                            <input type="text" class="form-control" id="internshipRole" placeholder="Enter your role">
+                        </div>
+                    </div>
+                    
+                    <!-- Section 6: Project Details -->
+                    <div class="section-title mb-3">
+                        <h4><i class="bi bi-code-slash"></i> Project Details</h4>
+                        <hr>
+                    </div>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-6 mb-3">
+                            <label for="projectTitle" class="form-label">Project Title <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="projectTitle" placeholder="Enter your project title" required>
+                            <div class="invalid-feedback" id="projectTitleError"></div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="technologiesUsed" class="form-label">Technologies Used</label>
+                            <input type="text" class="form-control" id="technologiesUsed" placeholder="e.g., HTML, CSS, JavaScript">
+                        </div>
+                        
+                        <div class="col-12 mb-3">
+                            <label for="projectDescription" class="form-label">Project Description <span class="text-danger">*</span></label>
+                            <textarea class="form-control" id="projectDescription" rows="4" placeholder="Describe your project" required></textarea>
+                            <div class="invalid-feedback" id="projectDescriptionError"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Section 7: Declaration -->
+                    <div class="section-title mb-3">
+                        <h4><i class="bi bi-check-circle"></i> Declaration</h4>
+                        <hr>
+                    </div>
+                    
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="declaration" required>
+                                <label class="form-check-label" for="declaration">
+                                    I confirm that all the information provided above is correct. <span class="text-danger">*</span>
+                                </label>
+                            </div>
+                            <div class="invalid-feedback" id="declarationError"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <div class="d-flex flex-wrap gap-2 justify-content-center">
+                                <button type="button" class="btn btn-info text-white" id="previewBtn">
+                                    <i class="bi bi-eye"></i> Preview Details
+                                </button>
+                                <button type="button" class="btn btn-success" id="submitBtn">
+                                    <i class="bi bi-check-circle"></i> Submit Registration
+                                </button>
+                                <button type="button" class="btn btn-primary" id="downloadPdfBtn">
+                                    <i class="bi bi-file-earmark-pdf"></i> Download PDF
+                                </button>
+                                <button type="button" class="btn btn-warning text-white" id="resetBtn">
+                                    <i class="bi bi-arrow-counterclockwise"></i> Reset Form
+                                </button>
+                                <button type="button" class="btn btn-danger" id="logoutBtn2">
+                                    <i class="bi bi-box-arrow-right"></i> Logout
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Preview Modal -->
+    <div class="modal fade" id="previewModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header bg-info text-white">
+                    <h5 class="modal-title">
+                        <i class="bi bi-eye"></i> Registration Details Preview
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="previewContent">
+                    <!-- Preview content will be dynamically inserted here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Success Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">
+                        <i class="bi bi-check-circle"></i> Registration Completed
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <i class="bi bi-check-circle-fill text-success display-1"></i>
+                    <p class="mt-3">Registration Completed Successfully!</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">
+                        <i class="bi bi-check"></i> OK
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Logout Confirmation Modal -->
+    <div class="modal fade" id="logoutModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-warning">
+                    <h5 class="modal-title">
+                        <i class="bi bi-exclamation-triangle"></i> Confirm Logout
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <p>Are you sure you want to logout?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Cancel
+                    </button>
+                    <button type="button" class="btn btn-danger" id="confirmLogoutBtn">
+                        <i class="bi bi-box-arrow-right"></i> Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Reset Confirmation Modal -->
+    <div class="modal fade" id="resetModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-warning">
+                    <h5 class="modal-title">
+                        <i class="bi bi-exclamation-triangle"></i> Confirm Reset
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <p>Are you sure you want to reset the form? All data will be lost.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle"></i> Cancel
+                    </button>
+                    <button type="button" class="btn btn-warning text-white" id="confirmResetBtn">
+                        <i class="bi bi-arrow-counterclockwise"></i> Reset
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Hidden canvas for photo capture -->
+    <canvas id="captureCanvas" style="display: none;"></canvas>
+    
+    <!-- Bootstrap 5 JS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- jsPDF CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script src="registration.js"></script>
+</body>
+</html>
